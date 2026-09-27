@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Portal | Decentralized Pipeline Leak Detection</title>
+    
+    <!-- Loading Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Loading Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Configuring custom Tailwind theme to match the IoT/Water motif -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0B1120',
+                            panel: '#1E293B',
+                            accent: '#06B6D4', // Cyan-500
+                            textMain: '#F8FAFC',
+                            textMuted: '#94A3B8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B1120;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent body scroll, handle in containers */
+        }
+        
+        /* Custom Scrollbar for a premium technical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
+
+        /* Smooth section transitions */
+        .section-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease-out;
+        }
+
+        .section-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .nav-btn.active {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #06B6D4;
+            border-right: 3px solid #06B6D4;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <header class="fixed top-0 left-0 w-full h-20 bg-brand-panel/80 backdrop-blur-md border-b border-slate-700 z-50 flex items-center justify-between px-6 shadow-lg shadow-black/20">
+        
+        <!-- Left Side: Team Profiles -->
+        <div class="flex items-center gap-6 overflow-x-auto whitespace-nowrap hide-scrollbar">
+            
+            <!-- Member: Nathaniel Malazo -->
+            <div class="flex items-center gap-3 bg-slate-800/50 p-2 rounded-full border border-slate-700 hover:border-brand-accent transition-colors">
+                <img src="https://placehold.co/40x40/06B6D4/ffffff?text=NM" alt="Nathaniel Malazo" class="w-10 h-10 rounded-full shadow-sm">
+                <div class="pr-3 leading-tight">
+                    <p class="text-sm font-semibold text-brand-textMain">Nathaniel Malazo</p>
+                    <p class="text-xs text-brand-accent uppercase tracking-wider font-medium">Hustler</p>
+                </div>
+            </div>
+
+            <!-- Member: Symel Fortes -->
+            <div class="flex items-center gap-3 bg-slate-800/50 p-2 rounded-full border border-slate-700 hover:border-brand-accent transition-colors">
+                <img src="https://placehold.co/40x40/06B6D4/ffffff?text=SF" alt="Symel Fortes" class="w-10 h-10 rounded-full shadow-sm">
+                <div class="pr-3 leading-tight">
+                    <p class="text-sm font-semibold text-brand-textMain">Symel Fortes</p>
+                    <p class="text-xs text-brand-accent uppercase tracking-wider font-medium">Hipster</p>
+                </div>
+            </div>
+
+            <!-- Member: Carmel Angelo Hervera -->
+            <div class="flex items-center gap-3 bg-slate-800/50 p-2 rounded-full border border-slate-700 hover:border-brand-accent transition-colors">
+                <img src="https://placehold.co/40x40/06B6D4/ffffff?text=CH" alt="Carmel Angelo Hervera" class="w-10 h-10 rounded-full shadow-sm">
+                <div class="pr-3 leading-tight">
+                    <p class="text-sm font-semibold text-brand-textMain">Carmel Angelo Hervera</p>
+                    <p class="text-xs text-brand-accent uppercase tracking-wider font-medium">Hacker</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Org Logo -->
+        <div class="flex items-center gap-3 ml-4 border-l border-slate-600 pl-4">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-bold text-white tracking-wide">SorSU ECE</p>
+                <p class="text-xs text-brand-textMuted">Capstone Team</p>
+            </div>
+            <img src="https://placehold.co/50x50/1E293B/06B6D4?text=LOGO" alt="SorSU Electronics Engineering Logo" class="w-12 h-12 rounded-lg shadow-md border border-slate-600">
+        </div>
+    </header>
+
+    <div class="flex flex-1 pt-20 h-full">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-brand-panel border-r border-slate-700 flex flex-col flex-shrink-0 z-40">
+            <div class="p-6 border-b border-slate-700">
+                <h2 class="text-xs font-bold text-brand-textMuted uppercase tracking-widest mb-1">Chapter 1</h2>
+                <h1 class="text-lg font-bold text-brand-accent leading-tight">The Problem and Its Setting</h1>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav">
+                <!-- Navigation links -->
+                <button class="nav-btn active w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted hover:text-brand-textMain hover:bg-slate-800 flex items-center gap-3" data-target="abstract">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Abstract
+                </button>
+                <button class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted hover:text-brand-textMain hover:bg-slate-800 flex items-center gap-3" data-target="background">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    Background of the Study
+                </button>
+                <button class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted hover:text-brand-textMain hover:bg-slate-800 flex items-center gap-3" data-target="sop">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Statement of the Problem
+                </button>
+                <button class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted hover:text-brand-textMain hover:bg-slate-800 flex items-center gap-3" data-target="objectives">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    Objectives
+                </button>
+                <button class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted hover:text-brand-textMain hover:bg-slate-800 flex items-center gap-3" data-target="scope">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Scope and Limitations
+                </button>
+            </nav>
+            <div class="p-4 border-t border-slate-700 text-center">
+                <span class="text-[10px] text-slate-500 uppercase tracking-widest">System Architecture Demo</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-8 lg:p-16 relative w-full">
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Decorative Top Graphic -->
+                <div class="w-full h-1 bg-gradient-to-r from-brand-accent to-transparent mb-12 rounded-full"></div>
+
+                <!-- Section: Abstract -->
+                <div id="abstract" class="section-content active">
+                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent pb-2 inline-block">Abstract</h2>
+                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
+                        <p class="text-lg text-slate-300 leading-relaxed text-justify">
+                            This study presents a frugal engineering framework for decentralized pipeline leak detection utilizing a raw LoRa star topology. Addressing the challenge of Non-Revenue Water (NRW) in municipal systems, specifically modeled for Barangay Cabid-an, Sorsogon City, this capstone project bypasses expensive commercial LoRaWAN infrastructures. By integrating a Heltec ESP32-S3 microcontroller, a 5V analog pressure transducer, and a custom power-gating circuit, the edge node is kept strictly under a ₱2,000 budget. Data is transmitted via 915 MHz LoRa to a central receiver and visualized on a Flutter-based micro-GIS dashboard. The system evaluates pressure differentials to triangulate leaks while filtering out municipal pump shutdowns.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Section: Background of the Study -->
+                <div id="background" class="section-content">
+                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent pb-2 inline-block">Background of the Study</h2>
+                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
+                        <p class="text-lg text-slate-300 leading-relaxed text-justify">
+                            Non-Revenue Water (NRW) due to pipeline leaks remains a critical inefficiency in municipal water distribution. Commercial leak detection systems and standard LoRaWAN architectures involve prohibitive hardware costs and recurring Software-as-a-Service (SaaS) fees, making them inaccessible for smaller local government units (LGUs). This project introduces a low-cost, decentralized alternative tailored for local water monitoring contexts. By leveraging raw LoRa topologies and edge-computing, the framework provides real-time telemetry without relying on third-party cloud gateways or expensive cellular backhauls.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Section: Statement of the Problem -->
+                <div id="sop" class="section-content">
+                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent pb-2 inline-block">Statement of the Problem</h2>
+                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-6">
+                            This study aims to develop a cost-effective, decentralized pipeline leak detection system. Specifically, it seeks to answer the following:
+                        </p>
+                        <ol class="list-decimal list-inside space-y-4 text-lg text-slate-300 ml-4">
+                            <li class="pl-2">How can a reliable pressure-sensing edge node be constructed for under ₱2,000 using frugal engineering principles?</li>
+                            <li class="pl-2">How can a raw 915 MHz LoRa star topology be implemented to bypass commercial gateway dependencies and fees?</li>
+                            <li class="pl-2">How can a backend algorithm accurately differentiate between isolated pipeline leaks and system-wide pressure losses, such as scheduled pump shutdowns?</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Section: Objectives -->
+                <div id="objectives" class="section-content">
+                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent pb-2 inline-block">Objectives</h2>
+                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
+                        <ul class="space-y-5 text-lg text-slate-300">
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 text-brand-accent font-bold mr-4 mt-0.5">1</span>
+                                <p>To design and build a bench-tested edge node combining an ESP32-S3, an analog pressure transducer, and a highly efficient MT3608 power-gating circuit.</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 text-brand-accent font-bold mr-4 mt-0.5">2</span>
+                                <p>To establish a raw LoRa star network for telemetry transmission to a central Firebase-integrated receiver node.</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 text-brand-accent font-bold mr-4 mt-0.5">3</span>
+                                <p>To develop a differential pressure algorithm in Dart capable of filtering out false positives and visualizing active leak zones dynamically on a Mapbox interface.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section: Scope and Limitations -->
+                <div id="scope" class="section-content">
+                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent pb-2 inline-block">Scope and Limitations</h2>
+                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
+                        <p class="text-lg text-slate-300 leading-relaxed text-justify">
+                            This project is strictly scoped as a bench-tested proof-of-concept prototype. While the system parameters and environmental context are designed around municipal water monitoring in Cabid-an, Sorsogon City, it will not undergo live LGU utility deployment. The hardware budget is strictly capped at ₱2,000 per edge node. Furthermore, the network topology intentionally excludes commercial LoRaWAN gateways, relying entirely on a direct node-to-receiver raw LoRa configuration.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.section-content');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 1. Remove active state from all buttons
+                    navButtons.forEach(btn => btn.classList.remove('active', 'text-brand-accent', 'border-brand-accent', 'bg-cyan-500/10'));
+                    
+                    // 2. Add active state to clicked button
+                    button.classList.add('active', 'text-brand-accent', 'border-brand-accent', 'bg-cyan-500/10');
+
+                    // 3. Hide all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        // Use a tiny timeout to ensure display:none is removed before opacity transition happens
+                        setTimeout(() => {
+                            section.style.display = 'none';
+                        }, 300); // Matches CSS transition duration
+                    });
+
+                    // 4. Show the targeted section
+                    const targetId = button.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    
+                    // Reset display so animation can trigger
+                    targetSection.style.display = 'block';
+                    
+                    // Trigger reflow to restart CSS animation
+                    void targetSection.offsetWidth; 
+                    
+                    // Add active class for fade-in
+                    targetSection.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
