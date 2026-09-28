@@ -3,308 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capstone Portal | Frugal IoT Leak Detection</title>
-    
+    <title>Capstone Portal | Decentralized Pipeline Leak Detection</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            bg: '#0f172a',      // slate-900
-                            panel: '#1e293b',   // slate-800
-                            accent: '#0ea5e9',  // sky-500 (Water theme)
-                            accentDark: '#0284c7',
-                            textMain: '#f8fafc',
-                            textMuted: '#94a3b8'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .suggestion-box {
+            position: fixed; right: -250px; top: 30%; width: 250px;
+            background: #f8fafc; border: 1px solid #cbd5e1;
+            box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+            transition: 0.3s; z-index: 1000; border-radius: 8px 0 0 8px;
         }
-
-        /* Smooth section transitions */
-        .content-section {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.4s ease-out forwards;
+        .suggestion-box:hover, .suggestion-box:focus-within { right: 0; }
+        .suggestion-tab {
+            position: absolute; left: -40px; top: 0; width: 40px; height: 120px;
+            background: #2563eb; color: white; writing-mode: vertical-rl;
+            text-align: center; padding-right: 10px; cursor: pointer;
+            border-radius: 5px 0 0 5px; font-weight: bold;
         }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Active Navigation State */
-        .nav-btn {
-            transition: all 0.2s ease;
-        }
-        .nav-btn.active {
-            background-color: rgba(14, 165, 233, 0.15);
-            color: #0ea5e9;
-            border-left-color: #0ea5e9;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden">
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
 
-    <header class="h-20 bg-brand-panel/90 backdrop-blur-md border-b border-slate-700 z-50 flex items-center justify-between px-6 shadow-md flex-shrink-0">
-        
-        <!-- Team Profiles (Left) -->
-        <div class="flex items-center gap-4 overflow-x-auto hide-scrollbar">
-            <!-- Nathaniel Malazo -->
-            <div class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-full border border-slate-700">
-                <img src="https://placehold.co/40x40/0ea5e9/ffffff?text=NM" alt="Nathaniel Malazo" class="w-10 h-10 rounded-full">
-                <div class="pr-3 leading-tight hidden sm:block">
-                    <p class="text-sm font-semibold text-brand-textMain">Nathaniel Malazo</p>
-                    <p class="text-xs text-brand-accent uppercase tracking-wider font-bold">Hustler</p>
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center border border-slate-300">
+                    <span class="text-xs font-bold text-slate-500">LOGO</span>
+                </div>
+                <h1 class="text-xl font-bold text-slate-800">Decentralized Pipeline Leak Detection</h1>
+            </div>
+            <div class="flex items-center gap-4 text-sm font-medium text-slate-600">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-xs">H</div>
+                    <span>N. Malazo (Hustler)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-700 text-xs">H</div>
+                    <span>S. Fortes (Hipster)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-700 text-xs">H</div>
+                    <span>C. Hervera (Hacker)</span>
                 </div>
             </div>
-
-            <!-- Symel Fortes -->
-            <div class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-full border border-slate-700">
-                <img src="https://placehold.co/40x40/0ea5e9/ffffff?text=SF" alt="Symel Fortes" class="w-10 h-10 rounded-full">
-                <div class="pr-3 leading-tight hidden sm:block">
-                    <p class="text-sm font-semibold text-brand-textMain">Symel Fortes</p>
-                    <p class="text-xs text-brand-accent uppercase tracking-wider font-bold">Hipster</p>
-                </div>
-            </div>
-
-            <!-- Carmel Angelo Hervera -->
-            <div class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-full border border-slate-700">
-                <img src="https://placehold.co/40x40/0ea5e9/ffffff?text=CH" alt="Carmel Angelo Hervera" class="w-10 h-10 rounded-full">
-                <div class="pr-3 leading-tight hidden sm:block">
-                    <p class="text-sm font-semibold text-brand-textMain">Carmel Angelo Hervera</p>
-                    <p class="text-xs text-brand-accent uppercase tracking-wider font-bold">Hacker</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Org Logo (Right) -->
-        <div class="flex items-center gap-4 border-l border-slate-600 pl-4">
-            <div class="text-right hidden md:block">
-                <p class="text-sm font-bold text-white tracking-wide">SorSU ECE</p>
-                <p class="text-xs text-brand-textMuted">Capstone 2026</p>
-            </div>
-            <img src="https://placehold.co/50x50/1e293b/0ea5e9?text=ORG" alt="Organization Logo" class="w-12 h-12 rounded shadow-md border border-slate-600">
         </div>
     </header>
 
-    <div class="flex flex-1 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
         
-        <!-- Left Sidebar Navigation -->
-        <aside class="w-64 bg-brand-panel border-r border-slate-700 flex flex-col flex-shrink-0 z-40">
-            <div class="p-6 border-b border-slate-700">
-                <h2 class="text-xs font-bold text-brand-textMuted uppercase tracking-widest mb-1">Chapter 1</h2>
-                <h1 class="text-lg font-bold text-brand-accent leading-tight">The Problem & Its Setting</h1>
+        <aside class="w-64 shrink-0">
+            <div class="sticky top-24 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Chapter 1: Introduction</h3>
+                <nav class="flex flex-col gap-2">
+                    <button type="button" onclick="showSection('abstract')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-blue-700 bg-blue-50 transition-colors" id="btn-abstract">Abstract</button>
+                    <button type="button" onclick="showSection('background')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-background">Background of the Study</button>
+                    <button type="button" onclick="showSection('sop')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-sop">Statement of the Problem</button>
+                    <button type="button" onclick="showSection('objectives')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-objectives">Objectives</button>
+                    <button type="button" onclick="showSection('scope')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-scope">Scope and Limitations</button>
+                </nav>
+
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-6 mb-4 border-t border-slate-200 pt-4">Chapter 2: RRL</h3>
+                <nav class="flex flex-col gap-2">
+                    <button type="button" onclick="showSection('rrl-intro')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-rrl-intro">RRL Introduction</button>
+                    <button type="button" onclick="showSection('gis')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-gis">Geospatial Mapping (GIS)</button>
+                    <button type="button" onclick="showSection('lora')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-lora">IoT Pressure Profiling</button>
+                    <button type="button" onclick="showSection('baseline')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-baseline">Baseline Pressure Sensing</button>
+                    <button type="button" onclick="showSection('synthesis')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-synthesis">Synthesis & Gap Analysis</button>
+                    <button type="button" onclick="showSection('framework')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-framework">Conceptual Framework</button>
+                </nav>
             </div>
-            
-            <nav class="flex-1 overflow-y-auto py-2" id="sidebar-nav">
-                <!-- IMPORTANT: using type="button" stops form submission/page reloads -->
-                <button type="button" onclick="showSection('abstract')" id="btn-abstract" class="nav-btn active w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Abstract
-                </button>
-                <button type="button" onclick="showSection('background')" id="btn-background" class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Background of the Study
-                </button>
-                <button type="button" onclick="showSection('sop')" id="btn-sop" class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Statement of the Problem
-                </button>
-                <button type="button" onclick="showSection('objectives')" id="btn-objectives" class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Objectives of the Study
-                </button>
-                <button type="button" onclick="showSection('significance')" id="btn-significance" class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Significance of the Study
-                </button>
-                <button type="button" onclick="showSection('scope')" id="btn-scope" class="nav-btn w-full text-left px-6 py-4 text-sm font-medium text-brand-textMuted border-l-4 border-transparent hover:text-brand-textMain hover:bg-slate-800">
-                    Scope and Limitations
-                </button>
-            </nav>
         </aside>
 
-        <main class="flex-1 overflow-y-auto p-8 lg:p-12 relative w-full bg-brand-bg">
-            <div class="max-w-4xl mx-auto pb-20">
-                
-                <!-- Section: Abstract -->
-                <div id="abstract" class="content-section active">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Abstract</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify mb-4">
-                            This capstone project presents a frugal engineering framework for a decentralized pipeline leak detection system utilizing a raw LoRa star topology. Aimed at mitigating Non-Revenue Water (NRW) in municipal utilities—specifically modeled for Barangay Cabid-an, Sorsogon City—this architecture bypasses the prohibitive costs and recurring SaaS fees associated with commercial LoRaWAN gateways. 
-                        </p>
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify">
-                            The edge node integrates a Heltec WiFi LoRa 32 V3 (ESP32-S3), a 5V analog piezoresistive pressure transducer, and a highly efficient MT3608 power-gating circuit, keeping the hardware footprint strictly under a ₱2,000 budget per node. Telemetry is transmitted over 915 MHz to a central receiver, pushing data to a Firebase backend. A Flutter-based micro-GIS dashboard processes differential pressure algorithms to successfully triangulate active leak zones while filtering out systemic false positives, such as scheduled municipal pump shutdowns.
-                        </p>
-                    </div>
-                </div>
+        <main class="flex-1 bg-white p-8 rounded-lg shadow-sm border border-slate-200 min-h-[600px]">
+            
+            <!-- CHAPTER 1 SECTIONS -->
+       <div id="abstract" class="content-section active fade-in">
+    <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Abstract</h2>
+    <p class="text-slate-600 leading-relaxed mb-4">
+        The degradation of water distribution infrastructure results in significant volumetric losses, yet enterprise-grade telemetry systems utilizing commercial LoRaWAN gateways and proprietary Geographic Information Systems (GIS) remain economically unfeasible for low-budget deployments. This study presents a frugal engineering framework for decentralized pipeline leak detection, strictly scoped as a location-agnostic, bench-tested prototype with a per-node budget constraint under ₱2,000. The edge architecture integrates a 0-1.2 MPa analog piezoresistive pressure transducer with a Heltec WiFi LoRa 32 V3 (ESP32-S3) microcontroller. To maximize battery lifespan, a custom two-stage MOSFET power-gating circuit sequences an MT3608 boost converter, isolating the 5V sensor current draw during sleep cycles.
+    </p>
+    <p class="text-slate-600 leading-relaxed">
+        Multipoint telemetry is transmitted via a raw 915 MHz LoRa Star Topology, explicitly bypassing commercial gateways to eliminate recurring network server overhead. A central receiver routes packed data structures to a Firebase backend, where a Dart-based differential pressure algorithm calculates continuous rate-of-change (dP/dt). This logic analyzes cross-node variance to accurately distinguish between localized simulated pipeline ruptures and systemic bench-test pump shutoffs. System states are dynamically visualized on a micro-GIS Flutter application leveraging the Mapbox API mapped to an arbitrary test grid. The framework validates that spatial anomaly triangulation can be achieved effectively using open-source tools and decentralized raw RF architectures without enterprise infrastructure.
+    </p>
+</div>
 
-                <!-- Section: Background of the Study -->
-                <div id="background" class="content-section">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Background of the Study</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify mb-4">
-                            Water scarcity and resource mismanagement remain critical challenges globally. Locally, in areas like Sorsogon City, specifically Barangay Cabid-an, Non-Revenue Water (NRW)—water that is pumped and then lost to leaks before reaching the customer—creates massive operational deficits for Local Government Units (LGUs) and water districts. 
-                        </p>
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify">
-                            Currently, municipal leak detection relies heavily on manual acoustic sounding or reactive reporting (waiting for a pipe to burst visibly). While advanced commercial IoT systems exist, they are heavily centralized. They depend on expensive LoRaWAN gateway infrastructure, cellular backhauls, and subscription-based cloud servers. This financial barrier prevents smaller, rural municipalities from modernizing their water grids. By applying "frugal engineering," this project seeks to deliver enterprise-grade telemetry using low-cost, off-the-shelf components without relying on third-party network providers.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Section: Statement of the Problem -->
-                <div id="sop" class="content-section">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Statement of the Problem</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <p class="text-lg text-slate-300 leading-relaxed mb-6">
-                            This study aims to develop a cost-effective, decentralized pipeline leak detection system. Specifically, it seeks to answer the following technical challenges:
-                        </p>
-                        <ul class="space-y-4 text-lg text-slate-300">
-                            <li class="flex items-start">
-                                <span class="text-brand-accent font-bold mr-3">1.</span>
-                                <span>How can a reliable, battery-operated pressure-sensing edge node be designed and constructed for under ₱2,000 using frugal engineering principles?</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-brand-accent font-bold mr-3">2.</span>
-                                <span>How can a raw 915 MHz LoRa star topology be effectively implemented to ensure reliable data telemetry while bypassing commercial LoRaWAN gateway dependencies?</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-brand-accent font-bold mr-3">3.</span>
-                                <span>How can a backend differential algorithm accurately distinguish between isolated pipeline degradation (true leaks) and system-wide pressure losses (e.g., scheduled pump shutdowns)?</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Section: Objectives of the Study -->
-                <div id="objectives" class="content-section">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Objectives of the Study</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <h3 class="text-xl font-semibold text-brand-textMain mb-3">General Objective</h3>
-                        <p class="text-lg text-slate-300 leading-relaxed mb-8">
-                            To design, prototype, and validate a frugal, decentralized pipeline leak detection framework utilizing a raw LoRa star topology for municipal water monitoring applications.
-                        </p>
-
-                        <h3 class="text-xl font-semibold text-brand-textMain mb-3">Specific Objectives</h3>
-                        <ul class="space-y-4 text-lg text-slate-300">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-brand-accent flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>To construct an edge node utilizing a Heltec ESP32-S3, an analog piezoresistive pressure transducer, and a custom P-Channel/N-Channel MOSFET power-gating circuit to maximize battery life.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-brand-accent flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>To deploy a centralized receiver node that bridges raw LoRa packets directly to a Firebase real-time database.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-brand-accent flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>To develop a Flutter-based mobile Micro-GIS interface equipped with a differential pressure algorithm to visually map the node statuses.</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Section: Significance of the Study -->
-                <div id="significance" class="content-section">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Significance of the Study</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <p class="text-lg text-slate-300 leading-relaxed mb-6">
-                            This project holds significant practical and academic value for various sectors:
-                        </p>
-                        <div class="space-y-6">
-                            <div>
-                                <h4 class="text-brand-accent font-semibold text-lg">For Local Government Units (Sorsogon City)</h4>
-                                <p class="text-slate-300 mt-1">Provides a viable, low-barrier entry point to modernizing water infrastructure. Reducing Non-Revenue Water directly correlates to massive financial savings and better resource conservation without crippling budget allocations.</p>
-                            </div>
-                            <div>
-                                <h4 class="text-brand-accent font-semibold text-lg">For Utility Maintenance Crews</h4>
-                                <p class="text-slate-300 mt-1">Eliminates the guesswork in locating leaks. The micro-GIS Flutter app allows workers to go directly to isolated zones, saving man-hours and reducing the time roads need to be excavated for exploration.</p>
-                            </div>
-                            <div>
-                                <h4 class="text-brand-accent font-semibold text-lg">For Future ECE Researchers</h4>
-                                <p class="text-slate-300 mt-1">Establishes a proven foundation for "Frugal Engineering" in IoT. It demonstrates how to successfully bypass commercial SaaS constraints by utilizing raw protocols, opening doors for advanced research into mesh topologies or machine learning integration on the edge.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Scope and Limitations -->
-                <div id="scope" class="content-section">
-                    <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-brand-accent inline-block pb-2">Scope and Limitations</h2>
-                    <div class="bg-brand-panel p-8 rounded-xl shadow-lg border border-slate-700/50">
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify mb-8">
-                            This capstone project is strictly scoped as a bench-tested proof-of-concept prototype. While the system architecture and algorithms are meticulously designed and calibrated for the physical and geographical context of Barangay Cabid-an, Sorsogon City, the final output will not undergo live, underground LGU utility deployment due to bureaucratic and timeline constraints.
-                        </p>
-                        
-                        <!-- Embedded Circuit Image Container -->
-                        <div class="my-8 bg-slate-900 border border-slate-600 rounded-lg p-6 flex flex-col items-center shadow-inner">
-                            <img src="circuit-diagram.png" onerror="this.src='https://placehold.co/800x400/1e293b/0ea5e9?text=Insert+circuit-diagram.png+Here'" alt="Edge Node Hardware Architecture" class="w-full max-w-2xl h-auto rounded shadow-md border border-slate-700">
-                            <p class="text-sm text-center text-brand-accent mt-4 font-mono">
-                                Figure 1. Edge Node Hardware Architecture: Demonstrating the ESP32-S3, MT3608 Boost Converter, and custom MOSFET power-gating array.
-                            </p>
-                        </div>
-
-                        <p class="text-lg text-slate-300 leading-relaxed text-justify mt-8">
-                            Financially, the edge node design is strictly capped at a ₱2,000 maximum budget to validate the frugal engineering framework. Technologically, the network topology completely excludes the use of commercial LoRaWAN gateways (such as The Things Network), relying entirely on a raw 915 MHz LoRa configuration developed directly between the edge nodes and the centralized Firebase receiver.
-                        </p>
-                    </div>
-                </div>
-
+            <div id="background" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Background of the Study</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    The degradation of pipeline infrastructure leads to significant volumetric losses commonly categorized as Non-Revenue Water (NRW). While enterprise-grade acoustic and flow-based sensor networks exist, their deployment is cost-prohibitive. This research focuses on utilizing analog piezoresistive pressure transducers coupled with low-cost edge computing (ESP32-S3) to measure internal pipeline pressure variations.
+                </p>
             </div>
+
+            <div id="sop" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Statement of the Problem</h2>
+                <p class="text-slate-600 leading-relaxed mb-4">This study aims to develop a bench-tested, low-cost decentralized pipeline leak detection system. Specifically, it seeks to answer the following:</p>
+                <ul class="list-disc pl-6 text-slate-600 space-y-2">
+                    <li>How can a power-gated sensor circuit be optimized to extend the operational lifespan of a battery-powered edge node?</li>
+                    <li>How effectively can a raw 915 MHz LoRa Star Topology transmit multipoint pressure telemetry without LoRaWAN infrastructure?</li>
+                    <li>How accurately can a differential pressure algorithm differentiate between localized pipeline ruptures and systemic supply shutoffs on a test bench?</li>
+                </ul>
+            </div>
+
+            <div id="objectives" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Objectives</h2>
+                <ul class="list-disc pl-6 text-slate-600 space-y-2">
+                    <li>Design and bench-test an edge node hardware architecture utilizing an ESP32-S3, MT3608 boost converter, and a two-stage MOSFET power-gating circuit.</li>
+                    <li>Develop a C++ packed data structure for efficient raw LoRa telemetry transmission.</li>
+                    <li>Implement a Dart-based backend algorithm to process dP/dt over a sliding time window.</li>
+                    <li>Engineer a micro-GIS Flutter dashboard to plot node states dynamically on a localized arbitrary test grid.</li>
+                </ul>
+            </div>
+
+            <div id="scope" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Scope and Limitations</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    This study is strictly scoped to the development and bench-testing of the edge node prototype to validate the architecture. It operates purely as a location-agnostic system without requiring live LGU utility deployment. The budget constraint is strictly maintained under ₱2,000 per node. 
+                </p>
+                
+                <div class="my-8 p-4 bg-slate-50 border border-slate-200 rounded-lg shadow-sm">
+                    <img src="circuit-diagram.png" alt="Edge Node Power-Gating and Sensor Circuit" class="w-full h-auto rounded shadow-sm">
+                    <p class="text-sm text-center text-slate-500 mt-3 font-mono">Figure 1. Edge Node Hardware Architecture (ESP32-S3, MT3608, and MOSFET power-gating).</p>
+                </div>
+            </div>
+
+            <!-- CHAPTER 2 SECTIONS -->
+            <div id="rrl-intro" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Review of Related Literature</h2>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    This chapter reviews the technical literature establishing the foundation for decentralized pipeline leak detection. The selected studies validate the core physics of pressure-based anomaly detection, the efficacy of Low-Power Wide-Area Networks (LPWAN), and the utility of Geographic Information Systems (GIS).
+                </p>
+                <p class="text-slate-600 leading-relaxed">
+                    By analyzing the hardware, software, and economic architectures of existing state-of-the-art systems, this review identifies critical gaps in deployability for resource-constrained configurations. These gaps justify the frugal engineering methodologies—specifically the use of raw LoRa Star Topologies and open-source Micro-GIS—proposed in this capstone project.
+                </p>
+            </div>
+
+            <div id="gis" class="content-section fade-in">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Geospatial Mapping and GIS in Water Management</h2>
+                <p class="text-sm text-slate-500 mb-6 italic">Reference: Water, E. (2026, March 11). Saving Water: MAWC’s GIS-Powered Leak Detection Strategy. Industry Blogs.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Software Concept Validation</h3>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    Current industry literature demonstrates that major utilities utilize Geographic Information Systems (GIS) as their primary method to map leaks and visualize pressure zones to combat Non-Revenue Water. This validates the project's operational goal of utilizing Mapbox and Flutter to map anomalies spatially, proving that geospatial mapping is the current industry gold standard over basic text-based interfaces.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Economic Mismatch</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    A critical limitation of the referenced system is its reliance on Esri ArcGIS—a closed-source, proprietary enterprise software suite requiring heavy commercial licensing, server infrastructure, and SCADA integration. This financial exclusivity prevents adoption in frugal engineering contexts. In contrast, this project utilizes free-tier, open-source-friendly platforms paired with a low-cost raw LoRa network.
+                </p>
+            </div>
+
+            <div id="lora" class="content-section fade-in">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">LoRaWAN and IoT Pressure Rate Profiling</h2>
+                <p class="text-sm text-slate-500 mb-6 italic">Reference: S, D., OA, A., SA, O., & JO, B. (2023). Development of LoRaWAN-Based IoT Monitoring Device for Pressure Rate Profiling in Water Pipelines. Saudi Journal of Engineering and Technology.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Hardware Concept Validation</h3>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    This study scientifically validates the use of IoT monitoring devices for "Pressure Rate Profiling" using piezoresistive transducers. It establishes that monitoring internal pressure—without the need for complex in-line flow meters or expensive acoustic sensors—is a highly effective physics-based method for detecting anomalies in water pipelines.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Network Architecture Mismatch</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    The referenced architecture explicitly relies on the LoRaWAN protocol, necessitating commercial gateways, internet-connected network servers, and complex MAC-layer protocols. This project diverges from this dependency by utilizing Raw LoRa (915 MHz) in a localized Star Topology. This eliminates commercial gateway overhead and third-party SaaS fees, adhering directly to the bench-tested constraints.
+                </p>
+            </div>
+
+            <div id="baseline" class="content-section fade-in">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Baseline Pressure Sensing Architectures</h2>
+                <p class="text-sm text-slate-500 mb-6 italic">Reference: (DOC) A Proposed Design of Pressure Sensor as Water Leak detection System. (2026). Academia.Edu.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Conceptual Match</h3>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    This baseline research establishes the fundamental physics of the project: monitoring internal pressure drops utilizing 0-1 MPa analog piezoresistive transducers is a scientifically sound method for identifying water leaks.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-800 mt-6 mb-2">Systemic Logic Mismatch</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Traditional proposed designs operate on isolated, single-node threshold logic (e.g., triggering a localized alarm when pressure drops below a static PSI). These setups lack spatial awareness. A single sensor dropping could easily denote a routine municipal pump shutdown rather than a leak. This limitation justifies the project's development of multi-node differential triangulation integrated into a Micro-GIS interface, ensuring localized drops are compared against the entire network to eliminate false positives.
+                </p>
+            </div>
+
+            <div id="synthesis" class="content-section fade-in">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b-2 border-blue-600 pb-2">Synthesis of the State-of-the-Art and Gap Analysis</h2>
+                
+                <div class="bg-blue-50 p-5 rounded-lg border border-blue-100 mb-6">
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        Current industry strategies heavily emphasize Geographic Information Systems (GIS) for mitigating Non-Revenue Water. As highlighted by Water (2026), utilities utilize enterprise GIS platforms to map leaks and optimize maintenance dispatch strategies. However, commercial platforms require expensive proprietary software licenses and extensive SCADA infrastructure integrations, rendering them financially unfeasible for low-budget implementations. To address this economic barrier, this study democratizes spatial leak detection by engineering a micro-GIS architecture using open-source-compatible tools (Mapbox and Firebase) driven by a decentralized, low-cost LoRa network, achieving comparable spatial triangulation without the enterprise overhead.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        The viability of utilizing pressure sensors for pipeline telemetry is validated by S et al. (2023) and Academia.edu (2026), who successfully established pressure profiling as a sound alternative to acoustic sensing. However, S et al.'s architecture relies on the LoRaWAN protocol, which inherently requires internet-dependent gateways and third-party network servers, increasing both deployment costs and infrastructural complexity. To adapt this pressure-profiling concept for low-budget deployment, this study abandons the LoRaWAN stack in favor of a localized, raw LoRa Star Topology, eliminating gateway overhead while preserving the core pressure-telemetry capabilities.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        Furthermore, basic pressure-sensing architectures traditionally rely on isolated, single-node threshold alerts which lack spatial awareness and are prone to false positives during standard pressure fluctuations. To elevate this baseline concept into a robust monitoring system, this study introduces multi-node differential analysis. By networking multiple pressure transducers via a raw LoRa Star Topology and routing the telemetry to a localized Micro-GIS Mapbox interface, the system cross-references pressure drops across the grid to triangulate anomalies and filter out isolated false alarms.
+                    </p>
+                </div>
+            </div>
+
+            <div id="framework" class="content-section fade-in">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b-2 border-blue-600 pb-2">Conceptual Framework</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    Based on the gap analysis, the system architecture utilizes a modified Input-Process-Output (IPO) model engineered strictly for frugal, localized deployment.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                        <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-300 pb-1">INPUT (Edge Node)</h4>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
+                            <li>0-1.2 MPa Piezoresistive Transducer</li>
+                            <li>ESP32-S3 ADC Signal Reading</li>
+                            <li>MT3608 Power-Gated 5V Supply</li>
+                            <li>Li-Ion Battery Telemetry</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 border border-blue-200 rounded-lg bg-blue-50 shadow-sm relative">
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400">➔</div>
+                        <h4 class="font-bold text-blue-800 mb-2 border-b border-blue-200 pb-1">PROCESS (Transmission)</h4>
+                        <ul class="list-disc pl-5 text-sm text-blue-700 space-y-1">
+                            <li>Raw 915MHz LoRa Transceiver</li>
+                            <li>Star Topology Payload Routing</li>
+                            <li>Firebase Realtime Sync</li>
+                            <li>Dart Differential Algorithm (dP/dt)</li>
+                        </ul>
+                        <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 z-10">➔</div>
+                    </div>
+                    <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                        <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-300 pb-1">OUTPUT (UI/UX)</h4>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
+                            <li>Flutter Mobile Application</li>
+                            <li>Mapbox Micro-GIS Interface</li>
+                            <li>Triangulated Alert Visuals</li>
+                            <li>System-Loss vs Leak Distinction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
+    <div class="suggestion-box">
+        <div class="suggestion-tab flex items-center justify-center">💡 Suggest Edit</div>
+        <div class="p-4">
+            <form action="YOUR_FORMSPREE_LINK_HERE" method="POST" class="flex flex-col gap-3">
+                <label class="text-sm font-semibold text-slate-700">Leave an edit suggestion:</label>
+                <textarea name="suggestion" required placeholder="e.g., Update the MAWC citation..." rows="4" class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-blue-500"></textarea>
+                <input type="text" name="name" placeholder="Your Name" required class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-blue-500">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors text-sm">Send to Admin</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Function handles section switching WITHOUT reloading the page
         function showSection(sectionId) {
-            // 1. Hide all content sections
             const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('aside nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-blue-700');
+                btn.classList.add('text-slate-600');
             });
 
-            // 2. Remove 'active' state from all navigation buttons
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.getElementById(sectionId).classList.add('active');
 
-            // 3. Show the targeted section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
-            // 4. Highlight the clicked navigation button
-            const targetBtn = document.getElementById('btn-' + sectionId);
-            if (targetBtn) {
-                targetBtn.classList.add('active');
-            }
+            const activeBtn = document.getElementById('btn-' + sectionId);
+            activeBtn.classList.remove('text-slate-600');
+            activeBtn.classList.add('bg-blue-50', 'text-blue-700');
         }
     </script>
 </body>
