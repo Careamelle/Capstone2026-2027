@@ -64,6 +64,7 @@
                     <button type="button" onclick="showSection('sop')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-sop">Statement of the Problem</button>
                     <button type="button" onclick="showSection('objectives')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-objectives">Objectives</button>
                     <button type="button" onclick="showSection('scope')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-scope">Scope and Limitations</button>
+                     <button type="button" onclick="showSection('signi')" class="text-left px-3 py-2 text-sm rounded-md hover:bg-slate-100 font-medium text-slate-600 transition-colors" id="btn-scope">Significance of the Study</button>
                 </nav>
 
                 <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-6 mb-4 border-t border-slate-200 pt-4">Chapter 2: RRL</h3>
@@ -94,7 +95,10 @@
             <div id="background" class="content-section fade-in">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Background of the Study</h2>
                 <p class="text-slate-600 leading-relaxed">
-                    The degradation of pipeline infrastructure leads to significant volumetric losses commonly categorized as Non-Revenue Water (NRW). While enterprise-grade acoustic and flow-based sensor networks exist, their deployment is cost-prohibitive. This research focuses on utilizing analog piezoresistive pressure transducers coupled with low-cost edge computing (ESP32-S3) to measure internal pipeline pressure variations.
+                    Non-Revenue Water (NRW), which is water produced and lost before reaching the customer, remains a critical infrastructural and economic challenge for municipal water utilities. A primary contributor to NRW is undetected subterranean pipeline leakage. While modern Cyber-Physical Systems (CPS) and Internet of Things (IoT) frameworks offer robust smart-grid monitoring, current industry implementations rely heavily on expensive volumetric flow meters, proprietary LoRaWAN architectures, and recurring Software-as-a-Service (SaaS) subscriptions. These financial and computational overheads create a barrier to entry for localized or resource-constrained water utilities in developing regions.
+                </p>
+                <p class="text-slate-600 leading-relaxed">
+                    To bridge this gap, frugal engineering principles dictate the stripping down of complex systems to their absolute essential functions while maintaining performance. By replacing invasive flow-rate monitoring with non-invasive differential pressure triangulation, and substituting centralized LoRaWAN servers with a decentralized raw LoRa star topology, a highly viable and ultra-low-cost telemetry network can be achieved for residential utility networks.
                 </p>
             </div>
 
@@ -110,25 +114,33 @@
 
             <div id="objectives" class="content-section fade-in">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Objectives</h2>
+                <p class="text-slate-600 leading-relaxed mb-4">To design, develop, and evaluate a LoRa-based water pressure telemetry system and mobile application for residential applications utilizing Micro-GIS visualization.:</p>
                 <ul class="list-disc pl-6 text-slate-600 space-y-2">
-                    <li>Design and bench-test an edge node hardware architecture utilizing an ESP32-S3, MT3608 boost converter, and a two-stage MOSFET power-gating circuit.</li>
-                    <li>Develop a C++ packed data structure for efficient raw LoRa telemetry transmission.</li>
-                    <li>Implement a Dart-based backend algorithm to process dP/dt over a sliding time window.</li>
-                    <li>Engineer a micro-GIS Flutter dashboard to plot node states dynamically on a localized arbitrary test grid.</li>
+                    <li>Hardware Architecture: To engineer an autonomous, battery-powered edge node (budgeted strictly under ₱2,000) utilizing an ESP32-S3 microcontroller, a 5V analog piezoresistive transducer, and a localized P-Channel MOSFET power-gating circuit to maximize power efficiency.</li>
+                    <li>Network Topology: To deploy a raw 915 MHz LoRa physical layer transmission framework, establishing a decentralized star topology that bypasses commercial gateway infrastructure.</li>
+                    <li>Software & Spatial Integration: To develop a cross-platform mobile application utilizing Flutter, Firebase NoSQL architecture, and the Mapbox API, designed exclusively for utility maintenance personnel to map node coordinates and triangulate pressure differentials in real-time.</li>
                 </ul>
             </div>
 
             <div id="scope" class="content-section fade-in">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Scope and Limitations</h2>
                 <p class="text-slate-600 leading-relaxed mb-6">
-                    This study is strictly scoped to the development and bench-testing of the edge node prototype to validate the architecture. It operates purely as a location-agnostic system without requiring live LGU utility deployment. The budget constraint is strictly maintained under ₱2,000 per node. 
+                   To ensure rigorous academic evaluation and protect the engineering framework, the project boundaries are strictly defined around a bench-tested proof-of-concept. Although the system targets residential utility monitoring, validation is conducted on a closed-loop pressurized PVC test rig mimicking a residential pipeline grid to validate the architecture prior to any live local government unit integration. The hardware system relies exclusively on pressure-drop logic for anomaly detection, explicitly excluding volumetric flow meters, water quality sensors, and micro-hydro energy harvesting modules to prevent pressure data interference and maintain the frugal budget ceiling. Furthermore, the edge nodes rely entirely on 3.7V lithium-ion batteries managed by software-triggered deep sleep and hardware power-gating, strictly excluding any tethering to external AC mains power to prove true node autonomy. Finally, the software framework focuses solely on Micro-GIS telemetry and differential pressure triangulation as an exclusive diagnostic tool for utility maintenance personnel. It is strictly not a consumer-facing application, meaning residential end-users will not have access to the telemetry data, and payment gateways or automated financial billing systems are entirely excluded.
                 </p>
                 
                 <div class="my-8 p-4 bg-slate-50 border border-slate-200 rounded-lg shadow-sm">
                     <img src="circuit-diagram-of-endpoint.jpg" alt="Edge Node Power-Gating and Sensor Circuit" class="w-full h-auto rounded shadow-sm">
                     <p class="text-sm text-center text-slate-500 mt-3 font-mono">Figure 1. Edge Node Hardware Architecture (ESP32-S3, MT3608, and MOSFET power-gating).</p>
                 </div>
+                 </div>
+            
+                 <div id="signi" class="content-section fade-in">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b-2 border-blue-600 pb-2">Significance of the Study</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                   This research contributes directly to the fields of Electronics Engineering and Smart Utility Management by offering a highly optimized, low-cost alternative to commercial monitoring infrastructures. For water utility operators and maintenance teams, the study provides a blueprint for an accessible, subscription-free telemetry framework capable of monitoring residential pipeline integrity and accelerating repair dispatch at a fraction of the cost of commercial equivalents. For hardware developers and IoT researchers, the project validates the structural viability of combining raw physical-layer LoRa with passive power-gating circuits, establishing a replicable standard for frugal environmental monitoring networks. For academic institutions, it serves as a localized, functional benchmark for integrating micro-GIS platforms with microcontroller-based differential telemetry within a strictly limited undergraduate engineering budget.
+                </p>
             </div>
+                 </div>
 
             <!-- CHAPTER 2 SECTIONS -->
             <div id="rrl-intro" class="content-section fade-in">
